@@ -15,9 +15,9 @@ from django.contrib import messages
 #*****************************************Lab Requirements****************************************************#
 
 from .models import  FAANG,info,login,comments,otp
-from xml.dom.pulldom import parseString, START_ELEMENT
+from random import randint
+from xml.dom.pulldom import START_ELEMENT
 from xml.sax.handler import feature_external_ges
-from xml.sax import make_parser
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
 from django.template.loader import render_to_string
@@ -37,7 +37,8 @@ from argon2 import PasswordHasher
 import logging
 import requests
 import re
-import secrets
+import defusedxml.pulldom
+import defusedxml.sax
 
 #*****************************************Login and Registration****************************************************#
 
@@ -247,9 +248,9 @@ def xxe_see(request):
 @csrf_exempt
 def xxe_parse(request):
 
-    parser = make_parser()
+    parser = defusedxml.sax.make_parser()
     parser.setFeature(feature_external_ges, True)
-    doc = parseString(request.body.decode('utf-8'), parser=parser)
+    doc = defusedxml.pulldom.parseString(request.body.decode('utf-8'), parser=parser)
     for event, node in doc:
         if event == START_ELEMENT and node.tagName == 'text':
             doc.expandNode(node)
