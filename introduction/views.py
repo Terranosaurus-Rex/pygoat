@@ -6,7 +6,6 @@ from django.core import serializers
 from requests.structures import CaseInsensitiveDict
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.forms import UserCreationForm
-import random
 import string
 import os
 from hashlib import md5
@@ -486,7 +485,7 @@ def login_otp(request):
 def Otp(request):
     if request.method=="GET":
         email=request.GET.get('email')
-        otpN=randint(100,999)
+        otpN=secrets.SystemRandom().randint(100,999)
         if email and otpN:
             if email=="admin@pygoat.com":
                 otp.objects.filter(id=2).update(otp=otpN)
@@ -670,7 +669,7 @@ def a10_lab2(request):
 #*********************************************************A11*************************************************#
 
 def gentckt():
-    return (''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase, k=10)))
+    return (''.join(secrets.SystemRandom().choices(string.ascii_uppercase + string.ascii_lowercase, k=10)))
 
 def insec_desgine(request):
     if request.user.is_authenticated:
