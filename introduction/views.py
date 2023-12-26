@@ -1,11 +1,8 @@
 import hashlib
 from django.shortcuts import render,redirect
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-from .models import  FAANG, AF_session_id,info,login,comments,authLogin, tickits, sql_lab_table,Blogs,CF_user,AF_admin
-from django.core import serializers
-from requests.structures import CaseInsensitiveDict
-from django.contrib.auth import login,authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse, HttpResponseBadRequest
+from .models import  FAANG, AF_session_id,login,comments,authLogin, tickits, sql_lab_table,Blogs,CF_user,AF_admin
+from django.contrib.auth import login
 import string
 import os
 from hashlib import md5
@@ -14,18 +11,15 @@ from .forms import NewUserForm
 from django.contrib import messages
 #*****************************************Lab Requirements****************************************************#
 
-from .models import  FAANG,info,login,comments,otp
-from random import randint
+from .models import  FAANG,login,comments,otp
 from xml.dom.pulldom import START_ELEMENT
 from xml.sax.handler import feature_external_ges
 from django.views.decorators.csrf import csrf_exempt
-from django.template import loader
 from django.template.loader import render_to_string
 import subprocess
 import pickle
 import base64
 import yaml
-import json
 from dataclasses import dataclass
 import uuid
 from .utility import filter_blog, customHash
@@ -35,10 +29,10 @@ import base64
 from io import BytesIO
 from argon2 import PasswordHasher
 import logging
-import requests
 import re
 import defusedxml.pulldom
 import defusedxml.sax
+from security import safe_requests
 
 #*****************************************Login and Registration****************************************************#
 
@@ -952,7 +946,7 @@ def ssrf_lab2(request):
     elif request.method == "POST":
         url = request.POST["url"]
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
         except:
             return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "Invalid URL"})
