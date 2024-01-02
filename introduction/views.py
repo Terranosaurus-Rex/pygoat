@@ -519,8 +519,7 @@ def sec_mis_lab(request):
         return redirect('login')
 
 def secret(request):
-    XHost = request.headers.get('X-Host', 'None')
-    if(XHost == 'admin.localhost:8000'):
+    if((XHost := request.headers.get('X-Host', 'None')) == 'admin.localhost:8000'):
         return render(request,"Lab/sec_mis/sec_mis_lab.html", {"secret": "S3CR37K3Y"})
     else:
         return render(request,"Lab/sec_mis/sec_mis_lab.html", {"no_secret": "Only admin.localhost:8000 can access, Your X-Host is " + XHost})
@@ -926,9 +925,8 @@ def ssrf_discussion(request):
 
 
 def ssrf_target(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 
-    if x_forwarded_for:
+    if x_forwarded_for := request.META.get('HTTP_X_FORWARDED_FOR'):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
