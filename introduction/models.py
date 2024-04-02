@@ -16,15 +16,30 @@ class info(models.Model):
     ceo=models.CharField(max_length=200)
     about=models.CharField(max_length=200)
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class login(models.Model):
     id = models.AutoField(primary_key=True)
     user=models.CharField(max_length=200)
     password=models.CharField(max_length=300)
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class comments(models.Model):
     id = models.AutoField(primary_key=True)
     name=models.CharField(max_length=200)
     comment=models.CharField(max_length=600)
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
 
 class authLogin(models.Model):
     username=models.CharField(max_length=200, unique = True)
@@ -32,10 +47,20 @@ class authLogin(models.Model):
     password=models.CharField(max_length=200)
     userid = models.AutoField(primary_key=True)
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class otp(models.Model):
     id = models.AutoField(primary_key=True)
     email=models.CharField(max_length=200)
     otp=models.IntegerField(validators=[MaxValueValidator(300)])
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
 
 class tickits(models.Model):
     id = models.AutoField(primary_key=True)
@@ -48,6 +73,11 @@ class tickits(models.Model):
 class sql_lab_table(models.Model):
     id = models.CharField(primary_key = True, max_length=200)
     password = models.CharField(max_length=200)
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
 
 class Blogs(models.Model):
     id = models.AutoField(primary_key=True)
